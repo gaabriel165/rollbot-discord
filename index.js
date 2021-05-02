@@ -6,6 +6,11 @@ const { BOT_TOKEN } = process.env;
 
 const bot = new Discord.Client();
 
+bot.on("guildMemberAdd", (member) => {
+  const channel = member.guild.channels.cache.find((channel) => channel.id === "838525413558714418");
+  channel.send(`${member}, **Ao Infinito e Além!** :rocket: :muscle:`);
+});
+
 bot.on("message", async (message) => {
   if (message.author.bot) return;
 
