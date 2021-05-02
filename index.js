@@ -4,21 +4,21 @@ import dotenv from "dotenv";
 dotenv.config();
 const { BOT_TOKEN } = process.env;
 
-const client = new Discord.Client();
+const bot = new Discord.Client();
 
-client.on("message", (message) => {
+bot.on("message", async (message) => {
   if (message.author.bot) return;
 
-  const commandBody = message.content.split("a");
+  if (message.content === "!roll") {
+    const sorteado = Math.floor(Math.random() * (6 - 1 + 1)) + 1;
 
-  const min = parseInt(commandBody[0]);
-  const max = parseInt(commandBody[1]);
+    const dado = await message.reply({ files: [`./gifs/${sorteado}.gif`] });
 
-  if (message.content === `${min}a${max}` && message.channel.id == "769688960619511860") {
-    const sorteado = Math.floor(Math.random() * (max - min + 1)) + min;
-
-    message.reply(`***Sorteado ❯ ${sorteado} ***`);
+    setTimeout(() => {
+      message.delete();
+      dado.delete();
+    }, 5000);
   }
 });
 
-client.login(BOT_TOKEN).then(() => console.log("Bot online!"));
+bot.login(BOT_TOKEN).then(() => console.log("Bot online!"));
